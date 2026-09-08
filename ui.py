@@ -9,7 +9,11 @@ import streamlit as st
 APP_NAME = "Expense Tracker"
 API_HOST = os.getenv("API_HOST", "127.0.0.1")
 API_PORT = int(os.getenv("API_PORT", "8000"))
-API_URL = os.getenv("API_URL", f"http://{API_HOST}:{API_PORT}").rstrip("/")
+
+if "API_URL" in st.secrets:
+    API_URL = str(st.secrets["API_URL"]).rstrip("/")
+else:
+    API_URL = os.getenv("API_URL", f"http://{API_HOST}:{API_PORT}").rstrip("/")
 
 def api_request(method, endpoint, token=None, **kwargs):
     headers = kwargs.pop("headers", {})
